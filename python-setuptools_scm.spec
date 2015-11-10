@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.8.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -71,6 +71,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Mon Oct 19 2015 Orion Poplawski <orion@cora.nwra.com> - 1.8.0-2
 - Cleanup stray .pyc files from tests
 
