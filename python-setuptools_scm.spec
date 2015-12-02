@@ -2,13 +2,13 @@
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
-Version:        1.8.0
-Release:        3%{?dist}
+Version:        1.9.0
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        MIT
 URL:            http://pypi.python.org/pypi/%{srcname}
-Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.bz2
+Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python2-devel python3-devel
@@ -71,6 +71,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Wed Dec 2 2015 Orion Poplawski <orion@cora.nwra.com> - 1.9.0-1
+- Update to 1.9.0
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.8.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
