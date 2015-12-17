@@ -2,13 +2,13 @@
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
-Version:        1.9.0
+Version:        1.10.1
 Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        MIT
 URL:            http://pypi.python.org/pypi/%{srcname}
-Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.bz2
 
 BuildArch:      noarch
 BuildRequires:  python2-devel python3-devel
@@ -71,6 +71,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Thu Dec 17 2015 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-1
+- Update to 1.10.1
+
 * Wed Dec 2 2015 Orion Poplawski <orion@cora.nwra.com> - 1.9.0-1
 - Update to 1.9.0
 
