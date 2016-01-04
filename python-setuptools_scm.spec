@@ -1,11 +1,18 @@
 %{!?python3_pkgversion:%global python3_pkgversion 3}
 
+# EL7 does not have a new enough python-setuptools
+%if 0%{?rhel} && 0%{?rhel} <= 7
+%global with_python2 0
+%else
+%global with_python2 1
+%endif
+
 %global srcname setuptools_scm
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
 Version:        1.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -47,26 +54,31 @@ It also handles file finders for the suppertes scms.
 %autosetup -n %{srcname}-%{version}
 
 %build
+%if 0%{?with_python2}
 %py2_build
+%endif
 %py3_build
 
 %install
-# Must do the python2 install first because the scripts in /usr/bin are
-# overwritten with every setup.py install, and in general we want the
-# python3 version to be the default.
+%if 0%{?with_python2}
 %py2_install
+%endif
 %py3_install
 
 %check
+%if 0%{?with_python2}
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
+%endif
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 # Cleanup stray .pyc files from running python in python3 tests
 rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 
+%if 0%{?with_python2}
 %files -n python2-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python2_sitelib}/*
+%endif
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
@@ -74,6 +86,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Mon Jan 4 2016 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-2
+- No python2 package on EPEL (setuptools too old)
+
 * Thu Dec 17 2015 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-1
 - Update to 1.10.1
 
