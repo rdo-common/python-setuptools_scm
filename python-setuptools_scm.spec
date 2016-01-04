@@ -1,3 +1,5 @@
+%{!?python3_pkgversion:%global python3_pkgversion 3}
+
 %global srcname setuptools_scm
 %global sum The blessed package to manage your versions by scm tags
 
@@ -11,9 +13,10 @@ URL:            http://pypi.python.org/pypi/%{srcname}
 Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.bz2
 
 BuildArch:      noarch
-BuildRequires:  python2-devel python3-devel
+BuildRequires:  python2-devel
+BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  pytest
-BuildRequires:  python3-pytest
+BuildRequires:  python%{python3_pkgversion}-pytest
 # For tests
 BuildRequires:  git-core
 BuildRequires:  mercurial
@@ -31,11 +34,11 @@ Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
 
-%package -n python3-%{srcname}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
-%description -n python3-%{srcname}
+%description -n python%{python3_pkgversion}-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
@@ -65,7 +68,7 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %doc CHANGELOG.rst README.rst
 %{python2_sitelib}/*
 
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python3_sitelib}/*
