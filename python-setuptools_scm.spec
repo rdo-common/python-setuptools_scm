@@ -1,6 +1,10 @@
 # Tests are not included in PyPI tarball
 %bcond_with tests
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 %global srcname setuptools_scm
 
 Name:           python-%{srcname}
@@ -37,6 +41,8 @@ BuildRequires:  python2-pytest
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
+
+%if 0%{?with_python3}
 %package -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
@@ -50,22 +56,30 @@ Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 %description -n python3-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
+%endif
+
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
 %py2_install
+%if 0%{?with_python3}
 %py3_install
+%endif
 
 %if %{with tests}
 %check
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
+%if 0%{?with_python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
+%endif
 %endif
 
 %files -n python2-%{srcname}
@@ -74,11 +88,13 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/%{srcname}-*.egg-info/
 
+%if 0%{?with_python3}
 %files -n python3-%{srcname}
 #license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/%{srcname}-*.egg-info
+%endif
 
 %changelog
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.7-2
