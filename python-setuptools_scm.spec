@@ -1,14 +1,9 @@
-%{!?python3_pkgversion:%global python3_pkgversion 3}
-
-# EL7 does not have a new enough python-setuptools
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%global with_python2 0
-%else
-%global with_python2 1
-%endif
-
 %global srcname setuptools_scm
 %global sum The blessed package to manage your versions by scm tags
+
+%if 0%{?fedora}
+%global with_python3 1
+%endif
 
 Name:           python-%{srcname}
 Version:        1.15.6
@@ -16,14 +11,10 @@ Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        MIT
-URL:            https://pypi.python.org/pypi/%{srcname}
-Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
+URL:            http://pypi.python.org/pypi/%{srcname}
+Source0:        https://pypi.io/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.bz2
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  pytest
-BuildRequires:  python%{python3_pkgversion}-pytest
 # For tests
 BuildRequires:  git-core
 BuildRequires:  mercurial
@@ -34,6 +25,8 @@ It also handles file finders for the suppertes scms.
 
 %package -n python2-%{srcname}
 Summary:        %{sum}
+BuildRequires:  python2-devel
+BuildRequires:  pytest
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -41,48 +34,56 @@ Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
 
-%package -n python%{python3_pkgversion}-%{srcname}
+%if 0%{?with_python3}
+%package -n python3-%{srcname}
 Summary:        %{sum}
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+BuildRequires:  python3-devel
+BuildRequires:  python3-pytest
+%{?python_provide:%python_provide python3-%{srcname}}
 
-%description -n python%{python3_pkgversion}-%{srcname}
+%description -n python3-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
+%endif
 
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
 %build
-%if 0%{?with_python2}
 %py2_build
-%endif
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
-%if 0%{?with_python2}
+# Must do the python2 install first because the scripts in /usr/bin are
+# overwritten with every setup.py install, and in general we want the
+# python3 version to be the default.
 %py2_install
-%endif
+%if 0%{?with_python3}
 %py3_install
+%endif
 
 %check
-%if 0%{?with_python2}
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
-%endif
+%if 0%{?with_python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
+# Cleanup stray .pyc files from running python in python3 tests
+rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
+%endif
 
-%if 0%{?with_python2}
 %files -n python2-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python2_sitelib}/*
-%endif
 
-%files -n python%{python3_pkgversion}-%{srcname}
+%if 0%{?with_python3}
+%files -n python3-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
-%{python3_sitelib}/%{srcname}/
-%{python3_sitelib}/%{srcname}-*.egg-info
+%{python3_sitelib}/*
+%endif
 
 
 %changelog
