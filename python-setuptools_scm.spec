@@ -11,13 +11,13 @@
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
-Version:        1.10.1
-Release:        4%{?dist}
+Version:        1.13.0
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        MIT
-URL:            http://pypi.python.org/pypi/%{srcname}
-Source0:        http://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.bz2
+URL:            https://pypi.python.org/pypi/%{srcname}
+Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -86,6 +86,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Mon Oct 10 2016 Parag Nemade <pnemade AT redhat DOT com> - 1.13.0-1
+- Update to 1.13.0
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.10.1-4
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
