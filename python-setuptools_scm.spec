@@ -12,7 +12,7 @@
 
 Name:           python-%{srcname}
 Version:        1.13.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -86,6 +86,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 1.13.0-2
+- Rebuild for Python 3.6
+
 * Mon Oct 10 2016 Parag Nemade <pnemade AT redhat DOT com> - 1.13.0-1
 - Update to 1.13.0
 
