@@ -11,8 +11,8 @@
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
-Version:        1.13.0
-Release:        2%{?dist}
+Version:        1.15.0
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -86,6 +86,9 @@ rm %{buildroot}%{python3_sitelib}/%{srcname}/*.pyc
 %{python3_sitelib}/*
 
 %changelog
+* Sat Feb 04 2017 Kevin Fenzi <kevin@scrye.com> - 1.15.0-1
+- Update to 1.15.0
+
 * Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 1.13.0-2
 - Rebuild for Python 3.6
 
