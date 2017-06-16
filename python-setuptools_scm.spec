@@ -11,7 +11,7 @@
 %global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
-Version:        1.15.5
+Version:        1.15.6
 Release:        1%{?dist}
 Summary:        %{sum}
 
@@ -86,6 +86,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 
 
 %changelog
+* Thu Jun 15 2017 Orion Poplawski <orion@cora.nwra.com> - 1.15.6-1
+- Update to 1.15.6
+
 * Mon Apr 10 2017 Orion Poplawski <orion@cora.nwra.com> - 1.15.5-1
 - Update to 1.15.5
 
