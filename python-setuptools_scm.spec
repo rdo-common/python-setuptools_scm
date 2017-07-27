@@ -12,7 +12,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -86,6 +86,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Thu Jun 15 2017 Orion Poplawski <orion@cora.nwra.com> - 1.15.6-1
 - Update to 1.15.6
 
