@@ -1,10 +1,16 @@
 %{!?python3_pkgversion:%global python3_pkgversion 3}
 
+%bcond_with tests
+
 # EL7 does not have a new enough python-setuptools
 %if 0%{?rhel} && 0%{?rhel} <= 7
-%global with_python2 0
+%bcond_with python2
+%bcond_with python3
+%bcond_with platform_python
 %else
-%global with_python2 1
+%bcond_without python2
+%bcond_without python3
+%bcond_without platform_python
 %endif
 
 %global srcname setuptools_scm
@@ -12,7 +18,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -20,18 +26,39 @@ URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
+%if %{with python2}
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+%endif
+%if %{with python3}
 BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  pytest
-BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python%{python3_pkgversion}-setuptools
+%endif
+%if %{with platform_python}
+BuildRequires:  platform-python-devel
+BuildRequires:  platform-python-setuptools
+%endif
+
 # For tests
+%if %{with tests}
+%if %{with python2}
+BuildRequires:  pytest
+%endif
+%if %{with python3}
+BuildRequires:  python%{python3_pkgversion}-pytest
+%endif
+%if %{with platform_python}
+BuildRequires:  platform-python-pytest
+%endif
 BuildRequires:  git-core
 BuildRequires:  mercurial
+%endif
 
 %description
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
+%if %{with python2}
 %package -n python2-%{srcname}
 Summary:        %{sum}
 %{?python_provide:%python_provide python2-%{srcname}}
@@ -39,8 +66,9 @@ Summary:        %{sum}
 %description -n python2-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
+%endif
 
-
+%if %{with python3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
@@ -48,44 +76,84 @@ Summary:        %{sum}
 %description -n python%{python3_pkgversion}-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
+%endif
 
+%if %{with platform_python}
+%package -n platform-python-%{srcname}
+Summary:        %{sum}
+
+%description -n platform-python-%{srcname}
+Setuptools_scm handles managing your python package versions in scm metadata.
+It also handles file finders for the suppertes scms.
+%endif
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
 %build
-%if 0%{?with_python2}
+%if %{with python2}
 %py2_build
 %endif
+%if %{with python3}
 %py3_build
+%endif
+%if %{with platform_python}
+%platform_py_build
+%endif # with platform_python
 
 %install
-%if 0%{?with_python2}
+%if %{with python2}
 %py2_install
 %endif
+%if %{with python3}
 %py3_install
+%endif
+%if %{with platform_python}
+%platform_py_install
+%endif # with platform_python
 
+%if %{with tests}
 %check
-%if 0%{?with_python2}
+%if %{with python2}
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
 %endif
+%if %{with python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
+%endif
+%if %{with platform_python}
+PYTHONPATH=%{buildroot}%{platform_python_sitelib} py.test-%{platform_python_version} -vv
+%endif # with platform_python
+%endif # with tests
 
-%if 0%{?with_python2}
+%if %{with python2}
 %files -n python2-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python2_sitelib}/*
 %endif
 
+%if %{with python3}
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/%{srcname}-*.egg-info
+%endif
 
+%if %{with platform_python}
+%files -n platform-python-%{srcname}
+%license LICENSE
+%doc CHANGELOG.rst README.rst
+%{platform_python_sitelib}/%{srcname}/
+%{platform_python_sitelib}/%{srcname}-*.egg-info
+%endif
 
 %changelog
+* Thu Aug 10 2017 Lumír Balhar <lbalhar@redhat.com> - 1.15.6-3
+- Add subpackage for platform-python
+- Disable tests so platform-python stack can be bootstrapped
+  (https://fedoraproject.org/wiki/Changes/Platform_Python_Stack)
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
