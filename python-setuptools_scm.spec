@@ -1,6 +1,6 @@
 %{!?python3_pkgversion:%global python3_pkgversion 3}
 
-%bcond_with tests
+%bcond_without tests
 
 # EL7 does not have a new enough python-setuptools
 %if 0%{?rhel} && 0%{?rhel} <= 7
@@ -18,7 +18,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -149,6 +149,10 @@ PYTHONPATH=%{buildroot}%{platform_python_sitelib} py.test-%{platform_python_vers
 %endif
 
 %changelog
+* Sun Aug 20 2017 Tomas Orsava <torsava@redhat.com> - 1.15.6-4
+- Re-enable tests to finish bootstrapping the platform-python stack
+  (https://fedoraproject.org/wiki/Changes/Platform_Python_Stack)
+
 * Thu Aug 10 2017 Lumír Balhar <lbalhar@redhat.com> - 1.15.6-3
 - Add subpackage for platform-python
 - Disable tests so platform-python stack can be bootstrapped
