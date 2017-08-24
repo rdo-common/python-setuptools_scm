@@ -18,7 +18,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -149,6 +149,9 @@ PYTHONPATH=%{buildroot}%{platform_python_sitelib} py.test-%{platform_python_vers
 %endif
 
 %changelog
+* Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 1.15.6-5
+- Rebuilt for rhbz#1484607
+
 * Sun Aug 20 2017 Tomas Orsava <torsava@redhat.com> - 1.15.6-4
 - Re-enable tests to finish bootstrapping the platform-python stack
   (https://fedoraproject.org/wiki/Changes/Platform_Python_Stack)
