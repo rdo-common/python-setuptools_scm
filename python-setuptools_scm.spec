@@ -26,30 +26,8 @@ URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
-%if %{with python2}
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-%endif
-%if %{with python3}
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
-%endif
-%if %{with platform_python}
-BuildRequires:  platform-python-devel
-BuildRequires:  platform-python-setuptools
-%endif
 
-# For tests
 %if %{with tests}
-%if %{with python2}
-BuildRequires:  pytest
-%endif
-%if %{with python3}
-BuildRequires:  python%{python3_pkgversion}-pytest
-%endif
-%if %{with platform_python}
-BuildRequires:  platform-python-pytest
-%endif
 BuildRequires:  git-core
 BuildRequires:  mercurial
 %endif
@@ -61,6 +39,11 @@ It also handles file finders for the suppertes scms.
 %if %{with python2}
 %package -n python2-%{srcname}
 Summary:        %{sum}
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+%if %{with tests}
+BuildRequires:  pytest
+%endif
 %{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -71,6 +54,11 @@ It also handles file finders for the suppertes scms.
 %if %{with python3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+%if %{with tests}
+BuildRequires:  python%{python3_pkgversion}-pytest
+%endif
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 %description -n python%{python3_pkgversion}-%{srcname}
@@ -81,6 +69,11 @@ It also handles file finders for the suppertes scms.
 %if %{with platform_python}
 %package -n platform-python-%{srcname}
 Summary:        %{sum}
+BuildRequires:  platform-python-devel
+BuildRequires:  platform-python-setuptools
+%if %{with tests}
+BuildRequires:  platform-python-pytest
+%endif
 
 %description -n platform-python-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
