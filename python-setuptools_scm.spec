@@ -1,5 +1,3 @@
-%{!?python3_pkgversion:%global python3_pkgversion 3}
-
 %bcond_without tests
 
 # EL7 does not have a new enough python-setuptools
