@@ -4,11 +4,9 @@
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python2
 %bcond_with python3
-%bcond_with platform_python
 %else
 %bcond_without python2
 %bcond_without python3
-%bcond_without platform_python
 %endif
 
 %global srcname setuptools_scm
@@ -16,7 +14,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -58,22 +56,9 @@ BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-pytest
 %endif
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+Obsoletes:      platform-python-%{srcname} < 1.15.6-6
 
 %description -n python%{python3_pkgversion}-%{srcname}
-Setuptools_scm handles managing your python package versions in scm metadata.
-It also handles file finders for the suppertes scms.
-%endif
-
-%if %{with platform_python}
-%package -n platform-python-%{srcname}
-Summary:        %{sum}
-BuildRequires:  platform-python-devel
-BuildRequires:  platform-python-setuptools
-%if %{with tests}
-BuildRequires:  platform-python-pytest
-%endif
-
-%description -n platform-python-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 %endif
@@ -111,9 +96,6 @@ PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
 %if %{with python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %endif
-%if %{with platform_python}
-PYTHONPATH=%{buildroot}%{platform_python_sitelib} py.test-%{platform_python_version} -vv
-%endif # with platform_python
 %endif # with tests
 
 %if %{with python2}
@@ -131,15 +113,10 @@ PYTHONPATH=%{buildroot}%{platform_python_sitelib} py.test-%{platform_python_vers
 %{python3_sitelib}/%{srcname}-*.egg-info
 %endif
 
-%if %{with platform_python}
-%files -n platform-python-%{srcname}
-%license LICENSE
-%doc CHANGELOG.rst README.rst
-%{platform_python_sitelib}/%{srcname}/
-%{platform_python_sitelib}/%{srcname}-*.egg-info
-%endif
-
 %changelog
+* Fri Nov 03 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.6-6
+- Remove platform-python subpackage
+
 * Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 1.15.6-5
 - Rebuilt for rhbz#1484607
 
