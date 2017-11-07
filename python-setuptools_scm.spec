@@ -14,7 +14,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        %{sum}
 
 License:        MIT
@@ -56,7 +56,7 @@ BuildRequires:  python%{python3_pkgversion}-setuptools
 BuildRequires:  python%{python3_pkgversion}-pytest
 %endif
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
-Obsoletes:      platform-python-%{srcname} < 1.15.6-6
+Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 
 %description -n python%{python3_pkgversion}-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
@@ -114,6 +114,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %endif
 
 %changelog
+* Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.6-7
+- Use better Obsoletes for platform-python
+
 * Fri Nov 03 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.6-6
 - Remove platform-python subpackage
 
