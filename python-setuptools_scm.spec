@@ -27,7 +27,7 @@ Summary:        %{summary}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 %if %{with tests}
-BuildRequires:  pytest
+BuildRequires:  python2-pytest
 %endif
 %{?python_provide:%python_provide python2-%{srcname}}
 
