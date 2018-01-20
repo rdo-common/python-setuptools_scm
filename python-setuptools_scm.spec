@@ -1,12 +1,11 @@
 %bcond_without tests
 
 %global srcname setuptools_scm
-%global sum The blessed package to manage your versions by scm tags
 
 Name:           python-%{srcname}
 Version:        1.15.6
 Release:        7%{?dist}
-Summary:        %{sum}
+Summary:        Blessed package to manage your versions by scm tags
 
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
@@ -24,7 +23,7 @@ Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
 %package -n python2-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 %if %{with tests}
@@ -37,7 +36,7 @@ Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
 %package -n python%{python3_pkgversion}-%{srcname}
-Summary:        %{sum}
+Summary:        %{summary}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
 %if %{with tests}
