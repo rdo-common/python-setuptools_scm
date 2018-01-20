@@ -1,12 +1,14 @@
-%bcond_without tests
+# Tests are not included in PyPI tarball
+%bcond_with tests
 
 %global srcname setuptools_scm
 
 Name:           python-%{srcname}
-Version:        1.15.6
-Release:        7%{?dist}
+Version:        1.15.7
+Release:        1%{?dist}
 Summary:        Blessed package to manage your versions by scm tags
 
+# https://github.com/pypa/setuptools_scm/issues/211
 License:        MIT
 URL:            https://pypi.python.org/pypi/setuptools_scm
 Source0:        https://files.pythonhosted.org/packages/source/%(n=%{srcname}; echo ${n:0:1})/%{srcname}/%{srcname}-%{version}.tar.gz
@@ -67,18 +69,21 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %endif
 
 %files -n python2-%{srcname}
-%license LICENSE
-%doc CHANGELOG.rst README.rst
+#license LICENSE
+%doc README.rst
 %{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/%{srcname}-*.egg-info/
 
 %files -n python3-%{srcname}
-%license LICENSE
-%doc CHANGELOG.rst README.rst
+#license LICENSE
+%doc README.rst
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/%{srcname}-*.egg-info
 
 %changelog
+* Sat Jan 20 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.7-1
+- Update to 1.15.7
+
 * Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.6-7
 - Use better Obsoletes for platform-python
 
