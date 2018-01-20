@@ -35,17 +35,17 @@ BuildRequires:  python2-pytest
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
-%package -n python%{python3_pkgversion}-%{srcname}
+%package -n python3-%{srcname}
 Summary:        %{summary}
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 %if %{with tests}
-BuildRequires:  python%{python3_pkgversion}-pytest
+BuildRequires:  python3-pytest
 %endif
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+%{?python_provide:%python_provide python3-%{srcname}}
 Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 
-%description -n python%{python3_pkgversion}-%{srcname}
+%description -n python3-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
@@ -72,7 +72,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %{python2_sitelib}/%{srcname}/
 %{python2_sitelib}/%{srcname}-*.egg-info/
 
-%files -n python%{python3_pkgversion}-%{srcname}
+%files -n python3-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python3_sitelib}/%{srcname}/
