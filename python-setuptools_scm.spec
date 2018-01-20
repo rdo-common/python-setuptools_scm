@@ -1,14 +1,5 @@
 %bcond_without tests
 
-# EL7 does not have a new enough python-setuptools
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%bcond_with python2
-%bcond_with python3
-%else
-%bcond_without python2
-%bcond_without python3
-%endif
-
 %global srcname setuptools_scm
 %global sum The blessed package to manage your versions by scm tags
 
@@ -32,7 +23,6 @@ BuildRequires:  mercurial
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
 
-%if %{with python2}
 %package -n python2-%{srcname}
 Summary:        %{sum}
 BuildRequires:  python2-devel
@@ -45,9 +35,7 @@ BuildRequires:  pytest
 %description -n python2-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
-%endif
 
-%if %{with python3}
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
 BuildRequires:  python%{python3_pkgversion}-devel
@@ -61,57 +49,34 @@ Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 %description -n python%{python3_pkgversion}-%{srcname}
 Setuptools_scm handles managing your python package versions in scm metadata.
 It also handles file finders for the suppertes scms.
-%endif
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
 %build
-%if %{with python2}
 %py2_build
-%endif
-%if %{with python3}
 %py3_build
-%endif
-%if %{with platform_python}
-%platform_py_build
-%endif # with platform_python
 
 %install
-%if %{with python2}
 %py2_install
-%endif
-%if %{with python3}
 %py3_install
-%endif
-%if %{with platform_python}
-%platform_py_install
-%endif # with platform_python
 
 %if %{with tests}
 %check
-%if %{with python2}
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -vv
-%endif
-%if %{with python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %endif
-%endif # with tests
 
-%if %{with python2}
 %files -n python2-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python2_sitelib}/*
-%endif
 
-%if %{with python3}
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
 %{python3_sitelib}/%{srcname}/
 %{python3_sitelib}/%{srcname}-*.egg-info
-%endif
 
 %changelog
 * Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.6-7
