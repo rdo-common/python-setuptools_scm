@@ -69,7 +69,8 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %files -n python2-%{srcname}
 %license LICENSE
 %doc CHANGELOG.rst README.rst
-%{python2_sitelib}/*
+%{python2_sitelib}/%{srcname}/
+%{python2_sitelib}/%{srcname}-*.egg-info/
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
