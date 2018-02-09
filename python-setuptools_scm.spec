@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        1.15.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Blessed package to manage your versions by scm tags
 
 # https://github.com/pypa/setuptools_scm/issues/211
@@ -81,6 +81,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -vv
 %{python3_sitelib}/%{srcname}-*.egg-info
 
 %changelog
+* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Sat Jan 20 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.15.7-1
 - Update to 1.15.7
 
